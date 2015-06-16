@@ -11,17 +11,20 @@ public class GetMessageThread implements Runnable{
 
 	private TransparentWindow transparentWindow = null;
 	private Engine engine = null;
-	
-	public GetMessageThread(TransparentWindow transparentWindow) {
+	private String code;
+	private int limitNum;
+	public GetMessageThread(TransparentWindow transparentWindow,String code_,int limit) {
 		this.transparentWindow = transparentWindow;
 		engine = Engine.getInstance();
+		code = code_;
+		limitNum = limit;
 	}
 	
 	@Override
 	public void run() {
 		int step = 10;
 		RequestMessage request = new RequestMessage();
-		request.requestMessage();
+		request.requestMessage(code,limitNum);
 		ArrayList<Message> onScreen = request.getMessage();
 		while(engine.isRun()) {
         	for(int i=0;i<onScreen.size();i++){
