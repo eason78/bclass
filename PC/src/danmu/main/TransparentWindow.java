@@ -1,28 +1,31 @@
 package danmu.main;
 
+import java.awt.Color;
+
+import javax.swing.JFrame;
 import javax.swing.JWindow;
 
 public class TransparentWindow extends JWindow{
-	private static final long serialVersionUID = 1L;
+	
 	private Engine engine;
 	
 	public TransparentWindow() {
-
-        this.setSize(300, 400);
-//        this.setBackground (new Color (0, 0, 0, 0));
-        this.setAlwaysOnTop(false);
+		this.setLayout(null);
+        this.setSize(1500, 800);
+        setBackground (new Color (0, 0, 0, 0));
+        this.setAlwaysOnTop(true);
         this.setVisible(true);
         
         engine = Engine.getInstance();
 	}
 	
 	public void startDanmu() {
-		engine.start();;
+		engine.setRun(true);
 		new Thread(new GetMessageThread(this)).start();
 	}
 	
 	public void stopDanmu() {
-		engine.stop();
+		engine.setRun(false);
 		this.dispose();
 	}
 }
