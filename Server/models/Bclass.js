@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var bclassSchema = mongoose.Schema({
   bcode: String,
-  createdAt: {type: Date}
+  createdAt: {type: Date, default: Date.now},
 });
 
 var Bclass = mongoose.model('Bclass', bclassSchema);

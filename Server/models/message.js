@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var messageSchema = mongoose.Schema({
   bcode: String,
-  createdAt: {type: Date},
+  createdAt: {type: Date, default: Date.now},
   texts: String
 });
 
