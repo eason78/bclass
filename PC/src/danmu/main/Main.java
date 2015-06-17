@@ -32,8 +32,6 @@ public class Main extends JFrame implements ActionListener {
 	private JButton sendBtn;
 	private JTextField inform;
 	private JLabel showcode;
-	private SpinnerListModel model;
-	private JSpinner spinner;
 	String code = "8SC28V";
     int limit = 2;
 
@@ -63,18 +61,6 @@ public class Main extends JFrame implements ActionListener {
 		sendBtn.addActionListener(this);
 		pauseBtn.setEnabled(false);
 		
-		ChangeListener listener = new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				inform.setFont(new Font("ËÎÌו", Font.PLAIN, (int) spinner.getValue()));
-			}
-		};
-		
-		spinner = new JSpinner();
-		spinner.setPreferredSize(new Dimension((screenWidth - WIDTH) / 4, 30));
-		spinner.setValue(14);
-		spinner.addChangeListener(listener);
 		contentPanel.add(title);
 		contentPanel.add(courseIdText);
 		contentPanel.add(registerBtn);
@@ -82,7 +68,6 @@ public class Main extends JFrame implements ActionListener {
 		contentPanel.add(startBtn);
 		contentPanel.add(pauseBtn);
 		contentPanel.add(inform);
-		contentPanel.add(spinner);
 		contentPanel.add(sendBtn);
 		
 		this.setLocation((screenWidth - WIDTH) / 2, (screenHeight - HEIGHT) / 2);

@@ -86,7 +86,8 @@ public class RequestMessage {
 					array = new JSONArray(result);
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject object = array.getJSONObject(i);
-						Message msg = new Message(object.getString("texts"));
+						Message msg = new Message(object.getString("texts"),
+								object.getInt("fontSize"), object.getInt("fontColor"));
 						onScreen.add(msg);
 					}
 				} catch (JSONException e) {

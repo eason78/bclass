@@ -1,6 +1,7 @@
 package danmu.main;
 
 
+import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
@@ -35,6 +36,10 @@ public class GetMessageThread implements Runnable{
         			x -= step;
         			message.setX(x);
         			message.msg.setBounds(x,y,800,500);
+        			Color fontColor = getColor(message.getFontColor());
+        			int fontSize = getFontSize(message.getFontSize());
+        			message.msg.setBackground(fontColor);
+        			message.msg.setFont(new Font("ËÎÌו", Font.PLAIN, fontSize));
         			transparentWindow.add(message.msg);
         		}
         		else{
@@ -43,7 +48,6 @@ public class GetMessageThread implements Runnable{
         		}
         		
         	}
-			
 			
 			try {
 				Thread.sleep(100);
@@ -54,6 +58,48 @@ public class GetMessageThread implements Runnable{
 			transparentWindow.repaint();
 		}
 		
+	}
+
+	private int getFontSize(int fontSize) {
+		int size = 14;
+		switch (fontSize) {
+		case 0:
+			size = 14;
+			break;
+		case 1:
+			size = 18;
+			break;
+		case 2:
+			size = 22;
+			break;
+		case 3:
+			size = 26;
+		default:
+			break;
+		}
+		return size;
+	}
+
+	private Color getColor(int colorFlag) {
+		Color color = null;
+		switch (colorFlag) {
+		case 0:
+			color = Color.RED;
+			break;
+		case 1:
+			color = Color.BLUE;
+			break;
+		case 2:
+			color = Color.GREEN;
+			break;
+		case 3:
+			color = Color.BLACK;
+			break;
+		default:
+			color = Color.BLACK;
+			break;
+		}
+		return color;
 	}
 
 }
