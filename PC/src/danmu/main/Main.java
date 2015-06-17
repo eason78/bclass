@@ -1,16 +1,23 @@
 package danmu.main;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerListModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.json.JSONException;
 
@@ -25,7 +32,10 @@ public class Main extends JFrame implements ActionListener {
 	private JButton sendBtn;
 	private JTextField inform;
 	private JLabel showcode;
-
+	private SpinnerListModel model;
+	private JSpinner spinner;
+	String code = "8SC28V";
+    int limit = 2;
 
 	private TransparentWindow transparentWindow = null;
 
@@ -33,6 +43,11 @@ public class Main extends JFrame implements ActionListener {
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		
 		JLabel title = new JLabel("欢迎来到B课堂");
 		showcode = new JLabel("您的课程ID为");
 		JLabel courseIdText = new JLabel("课程ID:");
@@ -41,13 +56,25 @@ public class Main extends JFrame implements ActionListener {
 		pauseBtn = new JButton("暂停弹幕");
 		sendBtn = new JButton("发送通知");
 		inform = new JTextField("");
-
+		inform.setFont(new Font("宋体", Font.PLAIN, 14));
 		registerBtn.addActionListener(this);
 		startBtn.addActionListener(this);
 		pauseBtn.addActionListener(this);
 		sendBtn.addActionListener(this);
 		pauseBtn.setEnabled(false);
-
+		
+		ChangeListener listener = new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				inform.setFont(new Font("宋体", Font.PLAIN, (int) spinner.getValue()));
+			}
+		};
+		
+		spinner = new JSpinner();
+		spinner.setPreferredSize(new Dimension((screenWidth - WIDTH) / 4, 30));
+		spinner.setValue(14);
+		spinner.addChangeListener(listener);
 		contentPanel.add(title);
 		contentPanel.add(courseIdText);
 		contentPanel.add(registerBtn);
@@ -55,15 +82,9 @@ public class Main extends JFrame implements ActionListener {
 		contentPanel.add(startBtn);
 		contentPanel.add(pauseBtn);
 		contentPanel.add(inform);
+		contentPanel.add(spinner);
 		contentPanel.add(sendBtn);
 		
-		
-
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Dimension screenSize = toolkit.getScreenSize();
-		int screenWidth = screenSize.width;
-		int screenHeight = screenSize.height;
-
 		this.setLocation((screenWidth - WIDTH) / 2, (screenHeight - HEIGHT) / 2);
 
 		this.setContentPane(contentPanel);
@@ -75,8 +96,7 @@ public class Main extends JFrame implements ActionListener {
 	public Main() {
 		initUI();
 	}
-    String code = "8SC28V";
-    int limit = 2;
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == registerBtn) {
@@ -87,7 +107,6 @@ public class Main extends JFrame implements ActionListener {
 			code = request.requestCode();
 			showcode.setText(code);
 			
-
 		} else if (e.getSource() == startBtn) {
 			if (transparentWindow == null) {
 				startBtn.setEnabled(false);
