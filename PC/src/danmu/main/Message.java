@@ -9,7 +9,25 @@ public class Message {
 	public JLabel msg;
 	private int x;
 	private int y;
+	private int fontColor;
+	private int fontSize;
 	
+	public int getFontColor() {
+		return fontColor;
+	}
+
+	public void setFontColor(int fontColor) {
+		this.fontColor = fontColor;
+	}
+
+	public int getFontSize() {
+		return fontSize;
+	}
+
+	public void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -27,9 +45,11 @@ public class Message {
 		this.y = y;
 	}
 
-	public Message(String str) {
+	public Message(String str, int fontSize, int fontColor) {
 		super();
 		this.msg = new JLabel(str);
+		this.fontSize = fontSize;
+		this.fontColor = fontColor;
 		x = 1300;
 		y = (int) (Math.random()*400);
 	}
