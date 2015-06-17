@@ -103,17 +103,28 @@
         android:layout_alignParentBottom="true"
         android:background="#eeeeee"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
-        <TextView
-            android:id="@+id/sample_size_color"
-            android:layout_width="80dip"
-            android:layout_height="40dip"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="弹幕"
-            android:textColor="#000000"
-            android:textSize="8pt" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/setImport"
+                android:text="重要"/>
+            <TextView
+                android:id="@+id/sample_size_color"
+                android:layout_width="80dip"
+                android:layout_height="40dip"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="弹幕"
+                android:textColor="#000000"
+                android:textSize="8pt" />
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -124,9 +135,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
                 android:gravity="center_vertical"
                 android:text="字体大小："
-                android:layout_weight="0.1"
                 android:textSize="8pt" />
 
             <RadioGroup
@@ -143,10 +154,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="小"
                     android:checked="true"
+                    android:gravity="center_vertical"
+                    android:text="小"
                     android:textColor="#ff0000"
                     android:textSize="8pt" />
 
@@ -155,8 +166,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="中"
                     android:textColor="#0000ff"
                     android:textSize="8pt" />
@@ -166,8 +177,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:layout_weight="1"
+                    android:gravity="center_vertical"
                     android:text="大"
                     android:textColor="#00ff00"
                     android:textSize="8pt" />

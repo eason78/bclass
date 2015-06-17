@@ -9,6 +9,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -52,13 +53,14 @@ public class MainActivity extends Activity {
     private static Handler handlerRequest = null;
     public static final int SUCCEED = 1;
     public static final int FAIL = 0;
-    public Thread requestThread = null;
     public TextView infoTextView = null;
     public Button inClassButton = null;
     public Button sendButton = null;
     public TextView welText = null;
     public LinearLayout keyInLayout = null;
     public boolean runRequestThread = false;
+
+    private long exitTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,7 @@ public class MainActivity extends Activity {
         sendButton = (Button) findViewById(R.id.sendButton);
         welText = (TextView) findViewById(R.id.welcomeText);
         keyInLayout = (LinearLayout) findViewById(R.id.keyInLayout);
+
         final String path = "http://172.18.33.10:3000/get_messages?key=";
         handlerClick = new Handler() {
             @Override
@@ -81,8 +84,6 @@ public class MainActivity extends Activity {
                         welText.setVisibility(View.VISIBLE);
                         sendButton.setVisibility(View.VISIBLE);
                         runRequestThread = true;
-                        if (!requestThread.isAlive())
-                            requestThread.start();
                         //Toast.makeText(MainActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
                         break;
                     case FAIL:
@@ -96,15 +97,25 @@ public class MainActivity extends Activity {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case SUCCEED:
-                        if (!msg.obj.equals("")) {
+                        if (!msg.obj.equals("") && runRequestThread) {
                             try {
-                                List<HashMap<String,Object>> list = Analysis((String)(msg.obj));
-                                infoTextView.setText((String)(list.get(0).get("text")));
+                                List<HashMap<String, Object>> list = Analysis((String) (msg.obj));
+                                String text = "";
+                                for (HashMap<String, Object> l : list) {
+                                    text += (String) (l.get("text"));
+                                }
+                                if (!text.equals(""))
+                                    infoTextView.setText(text);
+                                else
+                                    infoTextView.setText((String)(msg.obj));
+                                //System.out.println((String)(msg.obj));
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                System.out.println((String) (msg.obj));
                             }
+                            //System.out.println((String)(msg.obj));
+                            //Toast.makeText(MainActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
                         }
-                        //Toast.makeText(MainActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
                         break;
                     case FAIL:
                         Toast.makeText(MainActivity.this, "send message fail", Toast.LENGTH_SHORT).show();
@@ -112,22 +123,20 @@ public class MainActivity extends Activity {
                 }
             }
         };
-        requestThread = new Thread() {
+        new Thread() {
             @Override
             public void run() {
-                Looper.prepare();
                 try {
-                    String value = URLEncoder.encode(keyIn.getText().toString(), "UTF-8");
-                    URL url = new URL(path + value);
-                    while (isAlive() && runRequestThread) {
-                        sleep(30000);
+                    while (true) {
+                        String value = URLEncoder.encode(keyIn.getText().toString(), "UTF-8");
+                        URL url = new URL(path + value);
+                        sleep(3000);
                         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                         byte[] data = new byte[1024];
                         int len;
                         HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("GET");
                         int code = con.getResponseCode();
-                        System.out.println(code);
                         Message message = new Message();
                         if (code == 200) {
                             InputStream inStream = con.getInputStream();
@@ -150,11 +159,10 @@ public class MainActivity extends Activity {
                    // Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
                 }
-                Looper.loop();
             }
-        };
+        }.start();
 
         inClassButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,6 +202,7 @@ public class MainActivity extends Activity {
                 } else {
                     ((Button) v).setText("进入教室");
                     runRequestThread = false;
+                    infoTextView.setText("(无)");
                     sendButton.setVisibility(View.GONE);
                     welText.setVisibility(View.GONE);
                     keyInLayout.setVisibility(View.VISIBLE);
@@ -223,10 +232,27 @@ public class MainActivity extends Activity {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             // 初始化map数组对象
             HashMap<String, Object> map = new HashMap<>();
-            map.put("createAt", jsonObject.getString("_id"));
+            map.put("createAt", jsonObject.getString("createdAt"));
             map.put("text", jsonObject.getString("texts"));
             list.add(map);
         }
         return list;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
