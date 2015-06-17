@@ -1,9 +1,7 @@
 package com.optimus.bclass;
 
-import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by OptimusV5 on 2015/6/16.
