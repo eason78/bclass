@@ -88,6 +88,8 @@ router.post('/shoot', function(req, res) {
         bcode: req.body.key,
         read: false,
         createdAt: new Date(),
+        fontSize: req.body.fontsize,
+        fontColor: req.body.fontcolor,
         texts: req.body.danmu
       })
       newBullet.save(function (error) {

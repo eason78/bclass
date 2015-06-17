@@ -4,6 +4,8 @@ var bulletSchema = mongoose.Schema({
   bcode: String,
   read: Boolean,
   createdAt: {type: Date},
+  fontSize: Number,
+  fontColor: String,
   texts: String
 });
 
