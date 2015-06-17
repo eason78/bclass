@@ -4,6 +4,7 @@ import android.app.LauncherActivity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class ListViewAdapter extends BaseAdapter{
         convertView = layoutInflater.inflate(R.layout.chat_listitem,null);
         ((TextView)convertView.findViewById(R.id.chatlist_text)).setText((String)list.get(position).get("text"));
         ((TextView)convertView.findViewById(R.id.chatlist_text)).setTextColor((ColorStateList) list.get(position).get("color"));
+        ((TextView)convertView.findViewById(R.id.chatlist_text)).setTextSize(TypedValue.COMPLEX_UNIT_PX, (float)list.get(position).get("size"));
         return convertView;
     }
 

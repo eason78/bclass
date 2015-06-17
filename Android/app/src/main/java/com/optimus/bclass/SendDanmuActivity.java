@@ -3,9 +3,11 @@ package com.optimus.bclass;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -45,8 +47,10 @@ public class SendDanmuActivity extends Activity {
     protected ImageButton addButton = null;
     protected LinearLayout setSizelinearLayout = null;
     protected InputMethodManager inputMethodManager = null;
-    protected RadioGroup radioGroup = null;
+    protected RadioGroup colorGroup = null;
     protected TextView sampleSizeColor = null;
+    protected RadioGroup sizeGroup = null;
+    public static Activity sendDanmuActivity = null;
     // protected TextView chatListText = null;
     // protected LayoutInflater layoutInflater = null;
 //    protected PopupWindow popupWindow = null;
@@ -55,7 +59,8 @@ public class SendDanmuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_danmu);
-        Intent intent = getIntent();
+        sendDanmuActivity = this;
+        final Intent intent = getIntent();
         danmus = new ArrayList<>();
         // layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -67,8 +72,8 @@ public class SendDanmuActivity extends Activity {
         editText = (EditText) findViewById(R.id.chat_bottom_edittext);
         //chatListText = (TextView) (layoutInflater.inflate(R.layout.chat_listitem,null).findViewById(R.id.chatlist_text));
         sampleSizeColor = (TextView) findViewById(R.id.sample_size_color);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-
+        colorGroup = (RadioGroup) findViewById(R.id.colorGroup);
+        sizeGroup = (RadioGroup) findViewById(R.id.sizeGroup);
 //        popupWindow = new PopupWindow((((LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.set_size_color, null, false)), ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 //        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         final String key = intent.getStringExtra("key");
@@ -83,6 +88,7 @@ public class SendDanmuActivity extends Activity {
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("text", danmu.toString());
                     map.put("color", sampleSizeColor.getTextColors());
+                    map.put("size", sampleSizeColor.getTextSize());
                     danmus.add(map);
                     listAdapter.notifyDataSetChanged();
                     editText.setText("");
@@ -95,6 +101,8 @@ public class SendDanmuActivity extends Activity {
                             try {
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("key", key);
+                                jsonObject.put("frontsize",sampleSizeColor.getTextSize());
+                                jsonObject.put("frontcolor",sampleSizeColor.getTextColors().toString());
                                 jsonObject.put("danmu", danmu.toString());
                                 StringEntity entity = new StringEntity(jsonObject.toString(), HTTP.UTF_8);
                                 post.setEntity(entity);
@@ -114,6 +122,7 @@ public class SendDanmuActivity extends Activity {
                                 e.printStackTrace();
                             } catch (IOException e) {
                                 e.printStackTrace();
+                                Toast.makeText(SendDanmuActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
                             }
                             Looper.loop();
                         }
@@ -124,7 +133,8 @@ public class SendDanmuActivity extends Activity {
         chatBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SendDanmuActivity.this.finish();
+                intent.setClass(SendDanmuActivity.this,MainActivity.class);
+                startActivity(intent);
             }
         });
         addButton.setOnTouchListener(new View.OnTouchListener() {
@@ -167,7 +177,7 @@ public class SendDanmuActivity extends Activity {
                 return onTouchEvent(event);
             }
         });
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        colorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.redRadioButton) {
@@ -178,6 +188,20 @@ public class SendDanmuActivity extends Activity {
                     sampleSizeColor.setTextColor(Color.GREEN);
                 } else if (checkedId == R.id.blackRadioButton) {
                     sampleSizeColor.setTextColor(Color.BLACK);
+                }
+            }
+        });
+        sizeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.sRadioButton) {
+                    sampleSizeColor.setTextSize(TypedValue.COMPLEX_UNIT_PT,8);
+                } else if (checkedId == R.id.mRadioButton) {
+                    sampleSizeColor.setTextSize(TypedValue.COMPLEX_UNIT_PT,9);
+                } else if (checkedId == R.id.lRadioButton) {
+                    sampleSizeColor.setTextSize(TypedValue.COMPLEX_UNIT_PT,10);
+                } else if (checkedId == R.id.xlRadioButton) {
+                    sampleSizeColor.setTextSize(TypedValue.COMPLEX_UNIT_PT,11);
                 }
             }
         });
