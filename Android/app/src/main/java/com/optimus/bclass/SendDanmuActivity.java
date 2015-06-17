@@ -121,10 +121,10 @@ public class SendDanmuActivity extends Activity {
 //                                HttpConnectionParams.setSoTimeout(httpParams, 5000);
 
                                 HttpResponse httpResponse = client.execute(post);
-                                if (httpResponse.getStatusLine().getStatusCode() == 200)
-                                    Toast.makeText(SendDanmuActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(SendDanmuActivity.this, "send message fail", Toast.LENGTH_SHORT).show();
+                                if (httpResponse.getStatusLine().getStatusCode() != 200)
+                                    //Toast.makeText(SendDanmuActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
+                                //else
+                                    Toast.makeText(SendDanmuActivity.this, "错误的口令或网络错误", Toast.LENGTH_SHORT).show();
                             } catch (JSONException | UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             } catch (ClientProtocolException e) {

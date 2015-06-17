@@ -103,7 +103,7 @@
         android:layout_alignParentBottom="true"
         android:background="#eeeeee"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="fill_parent"

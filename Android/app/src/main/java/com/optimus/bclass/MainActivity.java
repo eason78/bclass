@@ -87,7 +87,7 @@ public class MainActivity extends Activity {
                         //Toast.makeText(MainActivity.this, "send message succeed", Toast.LENGTH_SHORT).show();
                         break;
                     case FAIL:
-                        Toast.makeText(MainActivity.this, "send message fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "错误的口令或网络错误", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -106,8 +106,6 @@ public class MainActivity extends Activity {
                                 }
                                 if (!text.equals(""))
                                     infoTextView.setText(text);
-                                else
-                                    infoTextView.setText((String)(msg.obj));
                                 //System.out.println((String)(msg.obj));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -118,7 +116,7 @@ public class MainActivity extends Activity {
                         }
                         break;
                     case FAIL:
-                        Toast.makeText(MainActivity.this, "send message fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "错误的口令或网络错误", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -126,11 +124,10 @@ public class MainActivity extends Activity {
         new Thread() {
             @Override
             public void run() {
-                try {
-                    while (true) {
+                while (true) {
+                    try {
                         String value = URLEncoder.encode(keyIn.getText().toString(), "UTF-8");
                         URL url = new URL(path + value);
-                        sleep(3000);
                         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                         byte[] data = new byte[1024];
                         int len;
@@ -151,15 +148,17 @@ public class MainActivity extends Activity {
                             message.what = FAIL;
                             handlerRequest.sendMessage(message);
                         }
+                    } catch (ClientProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
                     }
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                   // Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    //Toast.makeText(MainActivity.this, "unknown network fail", Toast.LENGTH_SHORT).show();
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();
