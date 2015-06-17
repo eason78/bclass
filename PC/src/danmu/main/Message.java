@@ -11,7 +11,25 @@ public class Message {
 	private int y;
 	private int fontColor;
 	private int fontSize;
+	private int isImportant;
+	private int step;
 	
+	public int getStep() {
+		return step;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
+	}
+
+	public int getIsImportant() {
+		return isImportant;
+	}
+
+	public void setIsImportant(int isImportant) {
+		this.isImportant = isImportant;
+	}
+
 	public int getFontColor() {
 		return fontColor;
 	}
@@ -45,13 +63,23 @@ public class Message {
 		this.y = y;
 	}
 
-	public Message(String str, int fontSize, int fontColor) {
+	public Message(String str, int fontSize, int fontColor, int isImportant) {
 		super();
 		this.msg = new JLabel(str);
 		this.fontSize = fontSize;
 		this.fontColor = fontColor;
+		this.isImportant = isImportant;
+		
+		// ÍÂ²Û
+		if (isImportant == 0) {
+			y = (int) (Math.random()*100) + 300;
+			step = 10;
+		} else {
+			y = (int) (Math.random()*300);
+			step = 6;
+		}
 		x = 1300;
-		y = (int) (Math.random()*400);
+		
 	}
 
 	public String getMsg() {

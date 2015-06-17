@@ -51,7 +51,7 @@ public class Main extends JFrame implements ActionListener {
 		JLabel courseIdText = new JLabel("¿Î³ÌID:");
 		registerBtn = new JButton("×¢²á¿Î³Ì");
 		startBtn = new JButton("¿ªÆôµ¯Ä»");
-		pauseBtn = new JButton("ÔÝÍ£µ¯Ä»");
+		pauseBtn = new JButton("Í£Ö¹µ¯Ä»");
 		sendBtn = new JButton("·¢ËÍÍ¨Öª");
 		inform = new JTextField("");
 		inform.setFont(new Font("ËÎÌå", Font.PLAIN, 14));
