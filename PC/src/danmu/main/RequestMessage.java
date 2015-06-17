@@ -168,8 +168,6 @@ public class RequestMessage {
 			    post.addHeader("Content-Type", "application/json");
 				post.setEntity(entity);
 				
-				
-				
                 HttpParams httpParams = client.getParams();
 				
                 HttpResponse response = client.execute(post); 

@@ -12,7 +12,16 @@ public class Message {
 	private int fontColor;
 	private int fontSize;
 	private int isImportant;
+	private int step;
 	
+	public int getStep() {
+		return step;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
+	}
+
 	public int getIsImportant() {
 		return isImportant;
 	}
@@ -63,9 +72,11 @@ public class Message {
 		
 		// ÍÂ²Û
 		if (isImportant == 0) {
-			y = (int) (Math.random()*400) + 400;
+			y = (int) (Math.random()*100) + 300;
+			step = 10;
 		} else {
-			y = (int) (Math.random()*400);
+			y = (int) (Math.random()*300);
+			step = 6;
 		}
 		x = 1300;
 		

@@ -23,7 +23,6 @@ public class GetMessageThread implements Runnable{
 	
 	@Override
 	public void run() {
-		int step = 10;
 		RequestMessage request = new RequestMessage();
 		request.requestMessage(code,limitNum);
 		ArrayList<Message> onScreen = request.getMessage();
@@ -32,6 +31,7 @@ public class GetMessageThread implements Runnable{
         		Message message = onScreen.get(i);
         		int x = message.getX();
         		int y = message.getY();
+        		int step = message.getStep();
         		if(x > step){
         			x -= step;
         			message.setX(x);
