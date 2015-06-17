@@ -10,6 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.json.JSONException;
 
 public class Main extends JFrame implements ActionListener {
 
@@ -19,6 +22,10 @@ public class Main extends JFrame implements ActionListener {
 	private JButton registerBtn;
 	private JButton startBtn;
 	private JButton pauseBtn;
+	private JButton sendBtn;
+	private JTextField inform;
+	private JLabel showcode;
+
 
 	private TransparentWindow transparentWindow = null;
 
@@ -27,24 +34,30 @@ public class Main extends JFrame implements ActionListener {
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
 		JLabel title = new JLabel("欢迎来到B课堂");
-
+		showcode = new JLabel("您的课程ID为");
 		JLabel courseIdText = new JLabel("课程ID:");
-		JLabel courseId = new JLabel("无");
-
 		registerBtn = new JButton("注册课程");
 		startBtn = new JButton("开启弹幕");
 		pauseBtn = new JButton("暂停弹幕");
+		sendBtn = new JButton("发送通知");
+		inform = new JTextField("");
 
 		registerBtn.addActionListener(this);
 		startBtn.addActionListener(this);
 		pauseBtn.addActionListener(this);
+		sendBtn.addActionListener(this);
 		pauseBtn.setEnabled(false);
 
 		contentPanel.add(title);
 		contentPanel.add(courseIdText);
 		contentPanel.add(registerBtn);
+		contentPanel.add(showcode);
 		contentPanel.add(startBtn);
 		contentPanel.add(pauseBtn);
+		contentPanel.add(inform);
+		contentPanel.add(sendBtn);
+		
+		
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
@@ -62,16 +75,24 @@ public class Main extends JFrame implements ActionListener {
 	public Main() {
 		initUI();
 	}
-
+    String code = "8SC28V";
+    int limit = 2;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == registerBtn) {
+			Engine engine;
+			engine = Engine.getInstance();
+			engine.setRun(true);
+			RequestMessage request = new RequestMessage();
+			code = request.requestCode();
+			showcode.setText(code);
+			
 
 		} else if (e.getSource() == startBtn) {
 			if (transparentWindow == null) {
 				startBtn.setEnabled(false);
 				pauseBtn.setEnabled(true);
-				transparentWindow = new TransparentWindow();
+				transparentWindow = new TransparentWindow(code,limit);
 				transparentWindow.startDanmu();
 			}
 		} else if (e.getSource() == pauseBtn) {
@@ -81,7 +102,18 @@ public class Main extends JFrame implements ActionListener {
 				startBtn.setEnabled(true);
 				pauseBtn.setEnabled(false);
 			}
-		}
+		} else if (e.getSource() == sendBtn) {
+			Engine engine;
+			engine = Engine.getInstance();
+			engine.setRun(true);
+			RequestMessage request = new RequestMessage();
+			try {
+				request.sendInform(inform.getText(),code);
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} 
 	}
 
 	public static void main(String[] args) {

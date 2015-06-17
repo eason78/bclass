@@ -1,20 +1,45 @@
 package danmu.main;
 
+import java.util.Random;
+
+import javax.swing.JLabel;
+
 public class Message {
 
-	private String msg;
+	public JLabel msg;
+	private int x;
+	private int y;
+	
+	public int getX() {
+		return x;
+	}
 
-	public Message(String msg) {
+	public int getY() {
+		return y;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public Message(String str) {
 		super();
-		this.msg = msg;
+		this.msg = new JLabel(str);
+		x = 1300;
+		y = (int) (Math.random()*400);
 	}
 
 	public String getMsg() {
-		return msg;
+		return msg.getText();
 	}
 
 	public void setMsg(String msg) {
-		this.msg = msg;
+		this.msg.setText(msg);
 	};
 	
 	

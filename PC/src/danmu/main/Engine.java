@@ -18,16 +18,6 @@ public class Engine {
 		this.run = run;
 	}
 
-	public void start() {
-		this.run = true;
-		RequestMessage.init();
-	}
-	
-	public void stop() {
-		this.run = false;
-		RequestMessage.stopRequest();
-	}
-	
 	private static class EngineHolder {
 		public static Engine engine = new Engine();
 	}

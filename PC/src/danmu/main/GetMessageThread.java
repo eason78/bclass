@@ -1,47 +1,57 @@
 package danmu.main;
 
+
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
-
-import org.json.JSONException;
+import javax.swing.JPanel;
 
 public class GetMessageThread implements Runnable{
 
 	private TransparentWindow transparentWindow = null;
 	private Engine engine = null;
-	
-	public GetMessageThread(TransparentWindow transparentWindow) {
+	private String code;
+	private int limitNum;
+	public GetMessageThread(TransparentWindow transparentWindow,String code_,int limit) {
 		this.transparentWindow = transparentWindow;
 		engine = Engine.getInstance();
+		code = code_;
+		limitNum = limit;
 	}
 	
 	@Override
 	public void run() {
+		int step = 10;
+		RequestMessage request = new RequestMessage();
+		request.requestMessage(code,limitNum);
+		ArrayList<Message> onScreen = request.getMessage();
 		while(engine.isRun()) {
-			ArrayList<Message> messages = null;
-			try {
-				messages = RequestMessage.requestMessage();
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			for (Message msg : messages) {
-				System.out.println("msg: " + msg.getMsg());
-				
-				JLabel tmplabel = new JLabel(msg.getMsg());
-            	int y = (int) (Math.random()*100);
-            	tmplabel.setBounds(100, y, 100, 100);
-//            	tmplabel.setFont(new java.awt.Font("����", Font.BOLD, 33));
-                transparentWindow.add(tmplabel);
-			}
-			transparentWindow.repaint();
+        	for(int i=0;i<onScreen.size();i++){
+        		Message message = onScreen.get(i);
+        		int x = message.getX();
+        		int y = message.getY();
+        		if(x > step){
+        			x -= step;
+        			message.setX(x);
+        			message.msg.setBounds(x,y,800,500);
+        			transparentWindow.add(message.msg);
+        		}
+        		else{
+        			transparentWindow.remove(message.msg);
+        			RequestMessage.removeMessage(i);
+        		}
+        		
+        	}
+			
 			
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
+			transparentWindow.repaint();
 		}
 		
 	}
