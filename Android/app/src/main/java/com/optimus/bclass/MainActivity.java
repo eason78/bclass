@@ -234,6 +234,8 @@ public class MainActivity extends Activity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
+                if (SendDanmuActivity.sendDanmuActivity != null)
+                    SendDanmuActivity.sendDanmuActivity.finish();
                 System.exit(0);
             }
             return true;
