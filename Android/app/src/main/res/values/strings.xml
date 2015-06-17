@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BClass</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="登陆">登陆</string>
+    <string name="密码">密码</string>
+    <string name="用户名">用户名</string>
+    <string name="忘记密码">忘记密码&#160;&#160;</string>
+    <string name="注册账号">&#160;&#160;注册账号</string>
+    <string name="title_activity_send_danmu">SendDanmuActivity</string>
+</resources>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_send_danmu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.optimus.bclass.SendDanmuActivity">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/set_size_color">
+
+        <LinearLayout
+            android:id="@+id/chat_title"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:layout_alignParentTop="true"
+            android:background="#0090ff">
+
+            <Button
+                android:id="@+id/chat_back_button"
+                android:layout_width="60dip"
+                android:layout_height="fill_parent"
+                android:background="#0090ff"
+                android:text="返回"
+                android:textColor="@android:color/white"
+                android:textSize="7pt" />
+
+            <TextView
+                android:id="@+id/chat_contact_name"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="60dip"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="发送弹幕"
+                android:textColor="@android:color/white"
+                android:textSize="9pt" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/chat_bottom_linear"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_alignParentBottom="true"
+            android:background="#eeeeee"
+            android:orientation="horizontal"
+            android:paddingBottom="7dip"
+            android:paddingTop="7dip">
+
+            <ImageButton
+                android:id="@+id/chat_bottom_add"
+                android:layout_width="25dip"
+                android:layout_height="25dip"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dip"
+                android:background="#eeeeee"
+                android:src="@mipmap/add" />
+
+            <EditText
+                android:id="@+id/chat_bottom_edittext"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="7dip"
+                android:layout_marginRight="7dip"
+                android:layout_weight="1"
+                android:background="#ffffff" />
+
+            <Button
+                android:id="@+id/chat_bottom_sendbutton"
+                android:layout_width="50dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="4dip"
+                android:background="#0090ff"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/chat_bottom_linear"
+            android:layout_below="@id/chat_title"
+            android:background="#ffffff"
+            android:divider="#ffffff"
+            android:dividerHeight="0px"
+            android:fadingEdge="none"
+            android:transcriptMode="normal" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/set_size_color"
+        android:layout_width="fill_parent"
+        android:layout_height="150dip"
+        android:layout_alignParentBottom="true"
+        android:background="#eeeeee"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:id="@+id/setImport"
+                android:text="重要"/>
+            <TextView
+                android:id="@+id/sample_size_color"
+                android:layout_width="80dip"
+                android:layout_height="40dip"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="弹幕"
+                android:textColor="#000000"
+                android:textSize="8pt" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:gravity="center_vertical"
+                android:text="字体大小："
+                android:textSize="8pt" />
+
+            <RadioGroup
+                android:id="@+id/sizeGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dip"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/sRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:text="小"
+                    android:textColor="#ff0000"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/mRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="中"
+                    android:textColor="#0000ff"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/lRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="大"
+                    android:textColor="#00ff00"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/xlRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="特大"
+                    android:textColor="#000000"
+                    android:textSize="8pt" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="55dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dip"
+                android:gravity="center_vertical"
+                android:text="字体颜色："
+                android:textSize="8pt" />
+
+            <RadioGroup
+                android:id="@+id/colorGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dip"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/redRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="红色"
+                    android:textColor="#ff0000"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/blueRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="蓝色"
+                    android:textColor="#0000ff"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/greenRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="绿色"
+                    android:textColor="#00ff00"
+                    android:textSize="8pt" />
+
+                <RadioButton
+                    android:id="@+id/blackRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="true"
+                    android:gravity="center_vertical"
+                    android:text="黑色"
+                    android:textColor="#000000"
+                    android:textSize="8pt" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
