@@ -32,8 +32,10 @@ public class Main extends JFrame implements ActionListener {
 	private JButton sendBtn;
 	private JTextField inform;
 	private JLabel showcode;
-	String code = "8SC28V";
-    int limit = 2;
+	private JTextField number;
+	private JButton numBtn;
+	String code = null;
+    int limit = 5;
 
 	private TransparentWindow transparentWindow = null;
 
@@ -53,6 +55,8 @@ public class Main extends JFrame implements ActionListener {
 		startBtn = new JButton("开启弹幕");
 		pauseBtn = new JButton("停止弹幕");
 		sendBtn = new JButton("发送通知");
+		numBtn = new JButton("设置弹幕条数");
+		number = new JTextField("");
 		inform = new JTextField("");
 		inform.setFont(new Font("宋体", Font.PLAIN, 14));
 		registerBtn.addActionListener(this);
@@ -67,6 +71,9 @@ public class Main extends JFrame implements ActionListener {
 		contentPanel.add(showcode);
 		contentPanel.add(startBtn);
 		contentPanel.add(pauseBtn);
+		contentPanel.add(number);
+		contentPanel.add(numBtn);
+		number.setBounds(20, 20, 25, 25);
 		contentPanel.add(inform);
 		contentPanel.add(sendBtn);
 		
@@ -90,7 +97,7 @@ public class Main extends JFrame implements ActionListener {
 			engine.setRun(true);
 			RequestMessage request = new RequestMessage();
 			code = request.requestCode();
-			showcode.setText(code);
+			showcode.setText("课程id为"+code);
 			
 		} else if (e.getSource() == startBtn) {
 			if (transparentWindow == null) {
@@ -117,6 +124,8 @@ public class Main extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		} else if (e.getSource() == numBtn) {
+			limit = Integer.parseInt(number.getText());
 		} 
 	}
 

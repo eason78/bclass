@@ -8,7 +8,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+
+
+
+
+
 
 
 
@@ -57,7 +63,7 @@ public class RequestMessage {
 	public void requestMessage(String code,int limitNum)  {
 		if (engine.isRun()) {
 			try {
-				
+				System.out.print(code);
 				URL url = new URL("http://172.18.33.10:3000/get_bullets?bcode="+code+"&limit="+limitNum);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setDoOutput(true);
@@ -67,9 +73,7 @@ public class RequestMessage {
 			    conn.setUseCaches(false);
 
 			    conn.setRequestMethod("GET");
-			    conn.setRequestProperty("Content-type",
-			    		"application/x-www-form-urlencoded");
-
+			   
 			    conn.connect();
 			    
 				InputStream in = conn.getInputStream();
@@ -80,16 +84,20 @@ public class RequestMessage {
 					stringBuffer.append(buf);
 				}
 				String result = stringBuffer.toString();
-
+				System.out.print(result);
 				JSONArray array;
 				try {
 					array = new JSONArray(result);
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject object = array.getJSONObject(i);
-						Message msg = new Message(object.getString("texts"),
+						System.out.println(object.getString("texts"));
+						String text = URLDecoder.decode(object.getString("texts"),"UTF-8");
+						System.out.println(text);
+						Message msg = new Message(text,
 								object.getInt("fontSize"),
 								object.getInt("fontColor"),
 								object.getInt("important"));
+						
 						onScreen.add(msg);
 					}
 				} catch (JSONException e) {
@@ -135,7 +143,7 @@ public class RequestMessage {
 				JSONObject obj;
 				try {
 					obj = new JSONObject(result);
-					code = "¿Î³ÌidÎª"+obj.getString("code");
+					code = obj.getString("code");
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
