@@ -6,13 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.Editable;
-import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,15 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,15 +23,12 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 
 public class MainActivity extends Activity {
@@ -61,6 +45,7 @@ public class MainActivity extends Activity {
     public boolean runRequestThread = false;
 
     private long exitTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,7 +101,7 @@ public class MainActivity extends Activity {
                         }
                         break;
                     case FAIL:
-                        Toast.makeText(MainActivity.this, "错误的口令或网络错误", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "错误的口令或网络错误", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -220,6 +205,7 @@ public class MainActivity extends Activity {
             }
         });
     }
+
     private static ArrayList<HashMap<String, Object>> Analysis(String jsonStr)
             throws JSONException {
         /******************* 解析 ***********************/
@@ -248,6 +234,8 @@ public class MainActivity extends Activity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
+                if (SendDanmuActivity.sendDanmuActivity != null)
+                    SendDanmuActivity.sendDanmuActivity.finish();
                 System.exit(0);
             }
             return true;

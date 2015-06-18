@@ -3,7 +3,6 @@ package com.optimus.bclass;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
@@ -55,6 +54,7 @@ public class SendDanmuActivity extends Activity {
     protected RadioGroup sizeGroup = null;
     protected CheckBox setImportantBox = null;
     public static Activity sendDanmuActivity = null;
+    public Intent intent;
     public int color = 0;
     public int size = 3;
     public int important = 0;
@@ -67,7 +67,7 @@ public class SendDanmuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_danmu);
         sendDanmuActivity = this;
-        final Intent intent = getIntent();
+        intent = getIntent();
         danmus = new ArrayList<>();
         // layoutInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -232,7 +232,16 @@ public class SendDanmuActivity extends Activity {
             }
         });
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+            intent.setClass(SendDanmuActivity.this,MainActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 //    @Override
 //    public boolean onTouchEvent(MotionEvent event) {
 //        if (event.getAction() == MotionEvent.ACTION_DOWN) {
