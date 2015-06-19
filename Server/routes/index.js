@@ -164,9 +164,9 @@ router.post('/shoot', function(req, res) {
         fontColor: req.body.frontcolor,
         texts: req.body.danmu
       };
-      var LEN = client.rpush(req.body.key, JSON.stringify(newBullet),
+      var FLAG = client.rpush(req.body.key, JSON.stringify(newBullet),
                               redis.print);
-      if (LEN) {
+      if (FLAG) {
         res.sendStatus(200).end();
       }
       else {
