@@ -12,11 +12,12 @@ client.on("error", function (err) {
 
 
 generateBCode = function () {
-  var alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  //var alphanum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
   var BCode = "";
-  for (var i = 0; i < 6; i++) {
-    BCode += alphanum.charAt(Math.floor(Math.random() * alphanum.length));
+  for (var i = 0; i < 4; i++) {
+    //BCode += alphanum.charAt(Math.floor(Math.random() * alphanum.length));
+    BCode += Math.floor(Math.random() * 10);
   }
   return BCode;
 }
@@ -109,7 +110,11 @@ router.get('/get_bullets', function (req, res, next) {
               serverInternalError(res, 'DB FAILURE: QUERY BClass');
             }
             else {
-              res.status(200).json(replies[0]);
+              var resp = new Array();
+              for (var i = 0; i < replies[0].length; i++) {
+                resp.push(eval('(' + replies[0][i] + ')'));
+              }
+              res.status(200).json(resp);
             }
             for (var i = 0; i < parseInt(req.query.limit); i++) {
               client.lpop(req.query.bcode);
@@ -164,6 +169,7 @@ router.post('/shoot', function(req, res) {
         fontColor: req.body.frontcolor,
         texts: req.body.danmu
       };
+      
       var FLAG = client.rpush(req.body.key, JSON.stringify(newBullet),
                               redis.print);
       if (FLAG) {
