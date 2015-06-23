@@ -5,7 +5,10 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
+    // ORM for MongoDB
     mongoose = require('mongoose'),
+    // Client for Redis
+    redis = require('redis'),
     passport = require('passport');//,
     //WechatStrategy = require('passport-wechat');
 
@@ -103,3 +106,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
