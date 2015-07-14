@@ -23,40 +23,45 @@ public class GetMessageThread implements Runnable{
 	
 	@Override
 	public void run() {
-		RequestMessage request = new RequestMessage();
-		request.requestMessage(code,limitNum);
-		ArrayList<Message> onScreen = request.getMessage();
-		while(engine.isRun()) {
-        	for(int i=0;i<onScreen.size();i++){
-        		Message message = onScreen.get(i);
-        		int x = message.getX();
-        		int y = message.getY();
-        		int step = message.getStep();
-        		if(x > step){
-        			x -= step;
-        			message.setX(x);
-        			message.msg.setBounds(x,y,800,500);
-        			Color fontColor = getColor(message.getFontColor());
-        			int fontSize = getFontSize(message.getFontSize());
-        			message.msg.setBackground(fontColor);
-        			message.msg.setFont(new Font("ËÎÌå", Font.PLAIN, fontSize));
-        			transparentWindow.add(message.msg);
-        		}
-        		else{
-        			transparentWindow.remove(message.msg);
-        			RequestMessage.removeMessage(i);
-        		}
-        		
-        	}
-			
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		
+		while (engine.isRun()) {
+			RequestMessage request = new RequestMessage();
+			request.requestMessage(code, limitNum);
+			ArrayList<Message> onScreen = request.getMessage();
+			if (engine.isRun()) {
+				for (int i = 0; i < onScreen.size(); i++) {
+					Message message = onScreen.get(i);
+					int x = message.getX();
+					int y = message.getY();
+					int step = message.getStep();
+					if (x > step) {
+						x -= step;
+						message.setX(x);
+						message.msg.setBounds(x, y, 800, 500);
+						Color fontColor = getColor(message.getFontColor());
+						int fontSize = getFontSize(message.getFontSize());
+						message.msg.setForeground(fontColor);
+						message.msg
+								.setFont(new Font("Ó×Ô²", Font.PLAIN, fontSize));
+						transparentWindow.add(message.msg);
+					} else {
+						transparentWindow.remove(message.msg);
+						RequestMessage.removeMessage(i);
+					}
+
+				}
+
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				transparentWindow.repaint();
 			}
-			
-			transparentWindow.repaint();
 		}
+
+
 		
 	}
 

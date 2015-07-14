@@ -1,6 +1,7 @@
 package danmu.main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -41,16 +42,17 @@ public class Main extends JFrame implements ActionListener {
 
 	private void initUI() {
 		JPanel contentPanel = new JPanel();
-		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-
+		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
+		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
 		int screenWidth = screenSize.width;
 		int screenHeight = screenSize.height;
 		
 		JLabel title = new JLabel("欢迎来到B课堂");
-		showcode = new JLabel("您的课程ID为");
-		JLabel courseIdText = new JLabel("课程ID:");
+		showcode = new JLabel("课程ID为");
+		showcode.setFont(new Font("幼圆", Font.BOLD, 24));
+		showcode.setForeground(Color.RED);
 		registerBtn = new JButton("注册课程");
 		startBtn = new JButton("开启弹幕");
 		pauseBtn = new JButton("停止弹幕");
@@ -66,7 +68,6 @@ public class Main extends JFrame implements ActionListener {
 		pauseBtn.setEnabled(false);
 		
 		contentPanel.add(title);
-		contentPanel.add(courseIdText);
 		contentPanel.add(registerBtn);
 		contentPanel.add(showcode);
 		contentPanel.add(startBtn);
@@ -97,7 +98,7 @@ public class Main extends JFrame implements ActionListener {
 			engine.setRun(true);
 			RequestMessage request = new RequestMessage();
 			code = request.requestCode();
-			showcode.setText("课程id为"+code);
+			showcode.setText("课程ID为:"+code);
 			
 		} else if (e.getSource() == startBtn) {
 			if (transparentWindow == null) {
